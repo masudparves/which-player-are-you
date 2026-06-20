@@ -39,8 +39,8 @@ async function getDb() {
   dbPromise = (async () => {
     try {
       // These imports only resolve if you've run: npm install firebase
-      const { initializeApp } = await import("firebase/app");
-      const { getFirestore } = await import("firebase/firestore");
+      const { initializeApp } = await import(/* @vite-ignore */"firebase/app");
+      const { getFirestore } = await import(/* @vite-ignore */"firebase/firestore");
       const app = initializeApp(firebaseConfig);
       return getFirestore(app);
     } catch (e) {
@@ -56,7 +56,7 @@ export async function bumpCounter(name) {
   const db = await getDb();
   if (!db) return { value: local, source: "local" };
   try {
-    const { doc, runTransaction } = await import("firebase/firestore");
+    const { doc, runTransaction } = await import(/* @vite-ignore */"firebase/firestore");
     const ref = doc(db, "counters", `${name}_${todayKey()}`);
     const value = await runTransaction(db, async (tx) => {
       const snap = await tx.get(ref);
@@ -75,7 +75,7 @@ export async function readCounter(name) {
   const db = await getDb();
   if (!db) return { value: localGet(name), source: "local" };
   try {
-    const { doc, getDoc } = await import("firebase/firestore");
+    const { doc, getDoc } = await import(/* @vite-ignore */"firebase/firestore");
     const snap = await getDoc(doc(db, "counters", `${name}_${todayKey()}`));
     return { value: snap.exists() ? snap.data().value || 0 : 0, source: "firebase" };
   } catch (e) {
