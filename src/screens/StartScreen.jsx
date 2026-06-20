@@ -58,8 +58,7 @@ export default function StartScreen({ banner, onStart, onUnlock, onGetCode, unlo
         </div>
 
         {unlocked && (
-          <div className="unlocked-note">⭐ Legend ready: <b>{unlocked.name}</b> — press Start Play.</div>
-        )}
+<div className="unlocked-note"><span className="twinkle-star">⭐</span> Legend ready: <b>{unlocked.name}</b> — press Start Play.</div>        )}
 
         <button className="btn-primary" onClick={onStart}>Start Play ⚽</button>
 
