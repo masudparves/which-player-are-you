@@ -5,6 +5,8 @@ import StartScreen from "./screens/StartScreen.jsx";
 import QuizScreen from "./screens/QuizScreen.jsx";
 import ResultScreen from "./screens/ResultScreen.jsx";
 import VideoCodeScreen from "./screens/VideoCodeScreen.jsx";
+import HallScreen from "./screens/HallScreen.jsx";
+import AltScreen from "./screens/AltScreen.jsx";
 import { randomBanner } from "./components/Banner.jsx";
 import { PLAYERS } from "./data/players.js";
 import { ARCHETYPES } from "./data/archetypes.js";
@@ -76,15 +78,16 @@ export default function App() {
     setScreen("result");
   };
 
-  // Alternate destiny → watch sponsor countdown, then reveal a different-archetype player
-  const goAlternate = () => { setVideoMode("alternate"); newBanner(); setScreen("video"); };
-
-  const onAlternateReady = () => {
+  // Alternate Destiny → its own screen (different archetype than the result)
+  const goAlternate = () => {
     let pool = PLAYERS.filter((p) => !result || p.archetype !== result.archetype);
     if (!pool.length) pool = PLAYERS.filter((p) => !result || p.id !== result.id);
     setAlternate(pool[Math.floor(Math.random() * pool.length)]);
-    setScreen("result");
+    newBanner();
+    setScreen("alt");
   };
+
+  const goHallOfFame = () => setScreen("hall");
 
   const finalName = useMemo(() => sanitizeName(name), [name, screen]);
 
@@ -111,17 +114,22 @@ export default function App() {
           <ResultScreen
             result={result}
             userName={finalName}
-            alternate={alternate}
             onAlternateDestiny={goAlternate}
+            onHallOfFame={goHallOfFame}
             onBack={() => { newBanner(); setAlternate(null); setScreen("start"); }}
           />
+        )}
+        {screen === "hall" && (
+          <HallScreen onBack={() => { newBanner(); setScreen("start"); }} />
+        )}
+        {screen === "alt" && (
+          <AltScreen alternate={alternate} onBack={() => { newBanner(); setAlternate(null); setScreen("start"); }} />
         )}
         {screen === "video" && (
           <VideoCodeScreen
             banner={banner}
             mode={videoMode}
-            onAlternateReady={onAlternateReady}
-            onBack={() => { newBanner(); setScreen(videoMode === "alternate" ? "result" : "start"); }}
+            onBack={() => { newBanner(); setScreen("start"); }}
             onPlayAgain={() => { newBanner(); setScreen("start"); }}
           />
         )}

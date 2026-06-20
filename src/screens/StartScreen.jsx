@@ -11,6 +11,7 @@ export default function StartScreen({ banner, onStart, onUnlock, onGetCode, unlo
   const [showCode, setShowCode] = useState(false);
   const [code, setCode] = useState("");
   const [msg, setMsg] = useState("");
+  const [codeState, setCodeState] = useState(""); // "ok" | "err" | ""
   const [plays, setPlays] = useState(null);
   const potd = playerOfTheDay();
 
@@ -24,10 +25,13 @@ export default function StartScreen({ banner, onStart, onUnlock, onGetCode, unlo
     const lg = legendByCode(code);
     if (lg) {
       onUnlock(lg);
-      setMsg(`✅ Secret Player Unlocked: ${lg.name}. Now Start Play.`);
-      Sound.legend();
+      setMsg(`✅ Secret Player Unlocked: ${lg.name}! Now press Start Play.`);
+      setCodeState("ok");
+      Sound.success();
     } else {
-      setMsg("That code did not unlock a legend. Try again.");
+      setMsg("❌ Wrong secret code, try again");
+      setCodeState("err");
+      Sound.error();
     }
   };
 
@@ -58,7 +62,8 @@ export default function StartScreen({ banner, onStart, onUnlock, onGetCode, unlo
         </div>
 
         {unlocked && (
-<div className="unlocked-note"><span className="twinkle-star">⭐</span> Legend ready: <b>{unlocked.name}</b> — press Start Play.</div>        )}
+          <div className="unlocked-note"><span className="twinkle-star">⭐</span> Legend ready: <b>{unlocked.name}</b> — press Start Play.</div>
+        )}
 
         <button className="btn-primary" onClick={onStart}>Start Play ⚽</button>
 
@@ -75,7 +80,7 @@ export default function StartScreen({ banner, onStart, onUnlock, onGetCode, unlo
               />
               <button className="btn-unlock" onClick={tryCode}>Unlock</button>
             </div>
-            {msg && <div className={"code-msg" + (msg.startsWith("✅") ? " ok" : "")}>{msg}</div>}
+            {msg && <div className={"code-msg" + (codeState === "ok" ? " ok" : codeState === "err" ? " err" : "")}>{msg}</div>}
             <button className="btn-link gold" onClick={onGetCode}>🎁 Get Secret Code</button>
           </div>
         )}

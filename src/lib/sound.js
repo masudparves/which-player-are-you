@@ -144,4 +144,36 @@ export const Sound = {
     o.connect(g); g.connect(master);
     o.start(t); o.stop(t + 0.09);
   },
+  success() {
+    // bright rising 3-note positive chime
+    if (!ctx || !enabled) return;
+    const t = ctx.currentTime;
+    [660, 880, 1320].forEach((f, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "triangle";
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t + i * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.32, t + i * 0.09 + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.09 + 0.32);
+      o.connect(g); g.connect(master);
+      o.start(t + i * 0.09); o.stop(t + i * 0.09 + 0.34);
+    });
+  },
+  error() {
+    // negative descending double buzz
+    if (!ctx || !enabled) return;
+    const t = ctx.currentTime;
+    [220, 160].forEach((f, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sawtooth";
+      o.frequency.setValueAtTime(f, t + i * 0.16);
+      o.frequency.exponentialRampToValueAtTime(f * 0.7, t + i * 0.16 + 0.14);
+      g.gain.setValueAtTime(0.28, t + i * 0.16);
+      g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.16 + 0.15);
+      o.connect(g); g.connect(master);
+      o.start(t + i * 0.16); o.stop(t + i * 0.16 + 0.16);
+    });
+  },
 };

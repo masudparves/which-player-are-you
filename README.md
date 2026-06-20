@@ -180,7 +180,7 @@ src/
     profanity.js       ← name sanitizing
     storage.js         ← safe localStorage
   screens/             ← Start, Quiz, Result, VideoCode
-  components/          ← Banner, BackgroundFX, SoundToggle, ShareButtons, HallOfFame, AdSlot
+  components/          ← Banner, BackgroundFX, SoundToggle, HallOfFame, AdSlot
   assets/
     banners/           ← your 9 banners
     cards/             ← your 19 player/legend cards

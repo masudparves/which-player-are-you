@@ -14,6 +14,10 @@ export function addToHallOfFame(userName, result) {
   lsSet(KEY, list.slice(0, 20)); // keep last 20
 }
 
+export function getHallOfFame() {
+  return lsGet(KEY, []) || [];
+}
+
 export default function HallOfFame() {
   const list = lsGet(KEY, []) || [];
   if (!list.length) return null;

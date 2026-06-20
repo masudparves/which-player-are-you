@@ -1,208 +1,207 @@
 // ============================================================
 //  QUESTION BANK — 60 questions, 6 categories of 10.
+//  BALANCED: each archetype appears as an option EXACTLY 40 times
+//  (240 options / 6 archetypes), so no player group is favoured.
 //  Each option maps to ONE archetype:
 //    machine (Goal Machine), magician (Magician), general (General),
 //    speed (Speed Demon), showman (Showman), talisman (Talisman)
 //  The quiz randomly picks 5 each play.
-//
-//  GOAT_QUESTION is a separate, non-scoring Easter-egg shown once
-//  at the end for pure engagement.
 // ============================================================
 
 const A = (t, arch) => ({ t, s: { [arch]: 1 } });
 
 export const QUESTION_BANK = [
   // ─────────── 1) FOOTBALL PERSONALITY (10) ───────────
-  { cat: "Football", q: "World Cup Final. 90th minute. You get the ball.", options: [
-    A("Shoot immediately 🚀", "machine"), A("Dribble everyone 🪄", "magician"),
-    A("Find the perfect pass 🧠", "general"), A("Do something outrageous 🎭", "showman") ] },
-  { cat: "Football", q: "Your teammates call you the…", options: [
-    A("Finisher 🚀", "machine"), A("Wizard 🪄", "magician"),
-    A("Boss 🧠", "general"), A("Entertainer 🎭", "showman") ] },
-  { cat: "Football", q: "Your biggest strength on the pitch:", options: [
-    A("Determination 🚀", "machine"), A("Creativity 🪄", "magician"),
-    A("Leadership 🧠", "general"), A("Charisma 👑", "talisman") ] },
-  { cat: "Football", q: "Pick your dream goal:", options: [
-    A("A tap-in that wins the cup 🚀", "machine"), A("A solo run past 5 players 🪄", "magician"),
-    A("A 40-yard pinpoint assist 🧠", "general"), A("A bicycle kick, obviously 🎭", "showman") ] },
-  { cat: "Football", q: "Pre-match, you are…", options: [
-    A("Laser-focused on scoring 🚀", "machine"), A("Imagining impossible skills 🪄", "magician"),
-    A("Organizing the whole team 🧠", "general"), A("Hyping the crowd already 👑", "talisman") ] },
-  { cat: "Football", q: "Your shirt number says you're a…", options: [
-    A("Classic No.9 🚀", "machine"), A("Magical No.10 🪄", "magician"),
-    A("Commanding captain 🧠", "general"), A("Flashy winger 🎭", "showman") ] },
-  { cat: "Football", q: "How do you beat a defender?", options: [
-    A("Power straight through 🚀", "machine"), A("Nutmeg + spin 🪄", "magician"),
-    A("Clever one-two 🧠", "general"), A("Pure raw pace ⚡", "speed") ] },
-  { cat: "Football", q: "Your celebration of choice:", options: [
-    A("Calm point to the sky 🚀", "machine"), A("A cheeky shrug 🪄", "magician"),
-    A("Rally the whole squad 🧠", "general"), A("A choreographed dance 🎭", "showman") ] },
-  { cat: "Football", q: "When you lose a match you…", options: [
-    A("Train twice as hard 🚀", "machine"), A("Find a new trick 🪄", "magician"),
-    A("Analyze what went wrong 🧠", "general"), A("Pick everyone back up 👑", "talisman") ] },
-  { cat: "Football", q: "Your football superpower would be…", options: [
-    A("Never missing 🚀", "machine"), A("Unreadable dribbles 🪄", "magician"),
-    A("Teleporting speed ⚡", "speed"), A("Hypnotizing the crowd 👑", "talisman") ] },
+  { cat: "Football", q: "World Cup final, 90th minute, you get the ball:", options: [
+    A("Pick the perfect pass 🧠", "general"), A("Burn past everyone ⚡", "speed"),
+    A("Try something outrageous 🎭", "showman"), A("Demand it and own the moment 👑", "talisman") ] },
+  { cat: "Football", q: "Your signature move:", options: [
+    A("An impossible no-look trick 🪄", "magician"), A("A 40-metre sprint ⚡", "speed"),
+    A("Seven step-overs 🎭", "showman"), A("Swagger that draws all eyes 👑", "talisman") ] },
+  { cat: "Football", q: "Teammates call you the:", options: [
+    A("Wizard 🪄", "magician"), A("Boss 🧠", "general"),
+    A("Entertainer 🎭", "showman"), A("Star 👑", "talisman") ] },
+  { cat: "Football", q: "You beat a defender by:", options: [
+    A("Nutmeg and spin 🪄", "magician"), A("A clever one-two 🧠", "general"),
+    A("Pure raw pace ⚡", "speed"), A("Sheer presence — they freeze 👑", "talisman") ] },
+  { cat: "Football", q: "Your football superpower:", options: [
+    A("Unreadable dribbles 🪄", "magician"), A("Reading the whole game 🧠", "general"),
+    A("Teleport-level speed ⚡", "speed"), A("Hypnotising the crowd 🎭", "showman") ] },
+  { cat: "Football", q: "Your dream goal:", options: [
+    A("A clinical tap-in winner 🚀", "machine"), A("A breakaway from your own half ⚡", "speed"),
+    A("A bicycle kick, obviously 🎭", "showman"), A("A last-minute icon moment 👑", "talisman") ] },
+  { cat: "Football", q: "Pre-match, you are:", options: [
+    A("Laser-focused on scoring 🚀", "machine"), A("Organising the team 🧠", "general"),
+    A("Hyping the crowd 🎭", "showman"), A("Soaking up the spotlight 👑", "talisman") ] },
+  { cat: "Football", q: "After a loss you:", options: [
+    A("Train twice as hard 🚀", "machine"), A("Analyse what went wrong 🧠", "general"),
+    A("Shake it off, go again fast ⚡", "speed"), A("Pick everyone back up 👑", "talisman") ] },
+  { cat: "Football", q: "Your shirt personality:", options: [
+    A("Classic No.9 finisher 🚀", "machine"), A("Commanding captain 🧠", "general"),
+    A("Flying winger ⚡", "speed"), A("Flashy showman 🎭", "showman") ] },
+  { cat: "Football", q: "Celebration of choice:", options: [
+    A("Calm point to the sky 🚀", "machine"), A("A cheeky little shrug 🪄", "magician"),
+    A("A full choreographed dance 🎭", "showman"), A("Arms wide, drink in the roar 👑", "talisman") ] },
 
   // ─────────── 2) LEADERSHIP (10) ───────────
-  { cat: "Leadership", q: "Group project. You instantly become the…", options: [
-    A("Doer who finishes it 🚀", "machine"), A("Idea person 🪄", "magician"),
-    A("Planner who runs it 🧠", "general"), A("Face who presents it 👑", "talisman") ] },
-  { cat: "Leadership", q: "A teammate is panicking. You…", options: [
-    A("Take over and act 🚀", "machine"), A("Crack a joke to relax them 🎭", "showman"),
-    A("Calmly give a plan 🧠", "general"), A("Reassure and inspire them 👑", "talisman") ] },
-  { cat: "Leadership", q: "Your leadership style is…", options: [
+  { cat: "Leadership", q: "Group project — you're the:", options: [
+    A("One who just finishes it 🚀", "machine"), A("Idea machine 🪄", "magician"),
+    A("First to get moving ⚡", "speed"), A("Face who presents it 👑", "talisman") ] },
+  { cat: "Leadership", q: "A teammate panics. You:", options: [
+    A("Take over and act 🚀", "machine"), A("Find a creative fix 🪄", "magician"),
+    A("React instantly ⚡", "speed"), A("Crack a joke to relax them 🎭", "showman") ] },
+  { cat: "Leadership", q: "Your leadership style:", options: [
     A("Lead by results 🚀", "machine"), A("Lead by ideas 🪄", "magician"),
     A("Lead by strategy 🧠", "general"), A("Lead by presence 👑", "talisman") ] },
-  { cat: "Leadership", q: "People follow you because you're…", options: [
+  { cat: "Leadership", q: "People follow you because you're:", options: [
     A("Unstoppable 🚀", "machine"), A("Surprising 🪄", "magician"),
-    A("Dependable 🧠", "general"), A("Magnetic 👑", "talisman") ] },
-  { cat: "Leadership", q: "Tough decision needed NOW. You…", options: [
-    A("Decide and move 🚀", "machine"), A("Find a creative option 🪄", "magician"),
-    A("Weigh it fast and choose 🧠", "general"), A("Get everyone to buy in 👑", "talisman") ] },
-  { cat: "Leadership", q: "Your team wins. You credit…", options: [
-    A("Hard work 🚀", "machine"), A("A bit of magic 🪄", "magician"),
-    A("The game plan 🧠", "general"), A("Everyone but yourself 👑", "talisman") ] },
-  { cat: "Leadership", q: "Under pressure you become…", options: [
-    A("More aggressive 🚀", "machine"), A("More inventive 🪄", "magician"),
-    A("More calm 🧠", "general"), A("More energetic ⚡", "speed") ] },
+    A("Dependable 🧠", "general"), A("Magnetic and fun 🎭", "showman") ] },
+  { cat: "Leadership", q: "Tough call, needed now:", options: [
+    A("Decide and move 🚀", "machine"), A("Find a clever option 🪄", "magician"),
+    A("Weigh it, then choose 🧠", "general"), A("Go with your gut, fast ⚡", "speed") ] },
+  { cat: "Leadership", q: "Your team wins — you credit:", options: [
+    A("The game plan 🧠", "general"), A("The energy and tempo ⚡", "speed"),
+    A("The vibes you brought 🎭", "showman"), A("Everyone but yourself 👑", "talisman") ] },
+  { cat: "Leadership", q: "Under pressure you get:", options: [
+    A("More inventive 🪄", "magician"), A("More energetic ⚡", "speed"),
+    A("More theatrical 🎭", "showman"), A("More magnetic 👑", "talisman") ] },
   { cat: "Leadership", q: "Your motto:", options: [
-    A("Results over excuses 🚀", "machine"), A("Imagination wins 🪄", "magician"),
-    A("Plan the work, work the plan 🧠", "general"), A("Bring the energy 🎭", "showman") ] },
-  { cat: "Leadership", q: "A rival challenges you. You…", options: [
-    A("Out-work them 🚀", "machine"), A("Out-think them 🧠", "general"),
+    A("Imagination wins 🪄", "magician"), A("Plan the work, work the plan 🧠", "general"),
+    A("Bring the show 🎭", "showman"), A("Lift the room 👑", "talisman") ] },
+  { cat: "Leadership", q: "A rival challenges you. You:", options: [
+    A("Out-think them 🪄", "magician"), A("Out-plan them 🧠", "general"),
     A("Out-run them ⚡", "speed"), A("Out-shine them 👑", "talisman") ] },
-  { cat: "Leadership", q: "Captaincy means…", options: [
-    A("Setting the standard 🚀", "machine"), A("Unlocking creativity 🪄", "magician"),
-    A("Running the show 🧠", "general"), A("Lifting everyone's spirit 👑", "talisman") ] },
+  { cat: "Leadership", q: "Captaincy means:", options: [
+    A("Unlocking creativity 🪄", "magician"), A("Running the show 🧠", "general"),
+    A("Setting the tempo ⚡", "speed"), A("Keeping spirits high 🎭", "showman") ] },
 
   // ─────────── 3) SOCIAL LIFE (10) ───────────
-  { cat: "Social", q: "At a wedding you…", options: [
-    A("Eat first 🚀", "machine"), A("Dance first 🎭", "showman"),
-    A("Organize everyone 🧠", "general"), A("Become everyone's friend 👑", "talisman") ] },
-  { cat: "Social", q: "At a party you're the one who…", options: [
-    A("Gets things started 🚀", "machine"), A("Pulls off a wild trick 🪄", "magician"),
-    A("Keeps the plan on track 🧠", "general"), A("Owns the dance floor 🎭", "showman") ] },
-  { cat: "Social", q: "Your friend group sees you as…", options: [
-    A("The reliable one 🚀", "machine"), A("The creative one 🪄", "magician"),
-    A("The organizer 🧠", "general"), A("The star 👑", "talisman") ] },
-  { cat: "Social", q: "Group chat, you're always…", options: [
-    A("Straight to the point 🚀", "machine"), A("Sending memes 🎭", "showman"),
-    A("Making the plan 🧠", "general"), A("The first to reply ⚡", "speed") ] },
-  { cat: "Social", q: "Weekend plans appear. You…", options: [
-    A("Just go, no overthinking 🚀", "machine"), A("Suggest something wild ⚡", "speed"),
-    A("Plan the whole trip 🧠", "general"), A("Invite everyone you know 👑", "talisman") ] },
-  { cat: "Social", q: "Your ideal night out:", options: [
-    A("In and out, mission done 🚀", "machine"), A("Somewhere new and unusual 🪄", "magician"),
-    A("A well-booked plan 🧠", "general"), A("Center of the dance floor 🎭", "showman") ] },
-  { cat: "Social", q: "Meeting new people, you…", options: [
-    A("Keep it short 🚀", "machine"), A("Surprise them 🪄", "magician"),
-    A("Read the room 🧠", "general"), A("Light it up instantly 👑", "talisman") ] },
-  { cat: "Social", q: "Your camera roll is mostly…", options: [
-    A("Gym & goals 🚀", "machine"), A("Random arty shots 🪄", "magician"),
-    A("Screenshots & plans 🧠", "general"), A("You, mid-action 🎭", "showman") ] },
-  { cat: "Social", q: "Friends need help moving. You…", options: [
+  { cat: "Social", q: "At a wedding you:", options: [
+    A("Eat first, no nonsense 🚀", "machine"), A("Hit the dance floor first ⚡", "speed"),
+    A("Run the entertainment 🎭", "showman"), A("Befriend every table 👑", "talisman") ] },
+  { cat: "Social", q: "Friends see you as the:", options: [
+    A("Reliable one 🚀", "machine"), A("Organiser 🧠", "general"),
+    A("Life of the party 🎭", "showman"), A("Star of the group 👑", "talisman") ] },
+  { cat: "Social", q: "Weekend plan appears. You:", options: [
+    A("Just go, no overthinking 🚀", "machine"), A("Plan the whole trip 🧠", "general"),
+    A("Suggest something spontaneous ⚡", "speed"), A("Invite everyone you know 👑", "talisman") ] },
+  { cat: "Social", q: "Group chat, you're always:", options: [
+    A("Straight to the point 🚀", "machine"), A("Making the plan 🧠", "general"),
+    A("First to reply ⚡", "speed"), A("Sending the memes 🎭", "showman") ] },
+  { cat: "Social", q: "Meeting new people you:", options: [
+    A("Keep it short and real 🚀", "machine"), A("Surprise them 🪄", "magician"),
+    A("Put on a bit of a show 🎭", "showman"), A("Light up the room 👑", "talisman") ] },
+  { cat: "Social", q: "Your camera roll is mostly:", options: [
+    A("Goals and gym 🚀", "machine"), A("Weird arty shots 🪄", "magician"),
+    A("Action, blur, motion ⚡", "speed"), A("You, centre frame 👑", "talisman") ] },
+  { cat: "Social", q: "Friends are moving house. You:", options: [
     A("Carry the heavy stuff 🚀", "machine"), A("Find a clever shortcut 🪄", "magician"),
-    A("Direct the whole operation 🧠", "general"), A("Bring snacks & vibes 👑", "talisman") ] },
+    A("Zoom back and forth fast ⚡", "speed"), A("Bring snacks and jokes 🎭", "showman") ] },
   { cat: "Social", q: "Your energy at a gathering:", options: [
-    A("Quiet but powerful 🚀", "machine"), A("Curious and playful 🪄", "magician"),
-    A("Steady and in control 🧠", "general"), A("Loud and unmissable ⚡", "speed") ] },
+    A("Quiet but solid 🚀", "machine"), A("Curious and playful 🪄", "magician"),
+    A("Steady, in control 🧠", "general"), A("Loud and unmissable 👑", "talisman") ] },
+  { cat: "Social", q: "Ideal night out:", options: [
+    A("In, fun, done 🚀", "machine"), A("Somewhere new and odd 🪄", "magician"),
+    A("A well-booked plan 🧠", "general"), A("Centre of the dance floor 🎭", "showman") ] },
+  { cat: "Social", q: "Your laugh is:", options: [
+    A("A single sharp HA 🚀", "machine"), A("A surprised giggle 🪄", "magician"),
+    A("A quiet chuckle 🧠", "general"), A("A quick burst, then gone ⚡", "speed") ] },
 
   // ─────────── 4) WORK / SCHOOL (10) ───────────
-  { cat: "Work", q: "Deadline in 1 hour. You…", options: [
-    A("Grind and finish 🚀", "machine"), A("Hack a creative fix 🪄", "magician"),
-    A("Prioritize and execute 🧠", "general"), A("Charm an extension 👑", "talisman") ] },
-  { cat: "Work", q: "You receive unexpected money. You…", options: [
-    A("Invest it 🧠", "general"), A("Spend it on adventure ⚡", "speed"),
-    A("Treat your friends 👑", "talisman"), A("Buy something fun 🎭", "showman") ] },
-  { cat: "Work", q: "Your desk/workspace is…", options: [
-    A("Minimal, all business 🚀", "machine"), A("Creative chaos 🪄", "magician"),
-    A("Perfectly organized 🧠", "general"), A("Covered in personality 🎭", "showman") ] },
+  { cat: "Work", q: "Deadline in 1 hour. You:", options: [
+    A("Prioritise and execute 🧠", "general"), A("Sprint through it ⚡", "speed"),
+    A("Make it fun somehow 🎭", "showman"), A("Charm an extension 👑", "talisman") ] },
+  { cat: "Work", q: "Unexpected money. You:", options: [
+    A("Invent something with it 🪄", "magician"), A("Spend it on adventure ⚡", "speed"),
+    A("Throw a party 🎭", "showman"), A("Treat all your friends 👑", "talisman") ] },
+  { cat: "Work", q: "Your desk / workspace:", options: [
+    A("Creative chaos 🪄", "magician"), A("Perfectly organised 🧠", "general"),
+    A("Full of personality 🎭", "showman"), A("A bit of a stage 👑", "talisman") ] },
   { cat: "Work", q: "New project lands. First move:", options: [
-    A("Start immediately 🚀", "machine"), A("Brainstorm wild ideas 🪄", "magician"),
-    A("Build a plan 🧠", "general"), A("Rally the team 👑", "talisman") ] },
-  { cat: "Work", q: "In a meeting you're the one who…", options: [
-    A("Pushes for action 🚀", "machine"), A("Drops the big idea 🪄", "magician"),
-    A("Keeps it on track 🧠", "general"), A("Lifts the mood 🎭", "showman") ] },
-  { cat: "Work", q: "Your study/work secret:", options: [
-    A("Pure repetition 🚀", "machine"), A("Smart shortcuts 🪄", "magician"),
-    A("Tight schedules 🧠", "general"), A("Last-minute speed ⚡", "speed") ] },
-  { cat: "Work", q: "You get tough feedback. You…", options: [
-    A("Use it as fuel 🚀", "machine"), A("Find a new angle 🪄", "magician"),
-    A("Make a better plan 🧠", "general"), A("Stay confident anyway 👑", "talisman") ] },
+    A("Brainstorm wild ideas 🪄", "magician"), A("Build a plan 🧠", "general"),
+    A("Start instantly ⚡", "speed"), A("Rally the team 👑", "talisman") ] },
+  { cat: "Work", q: "In meetings you:", options: [
+    A("Drop the big idea 🪄", "magician"), A("Keep it on track 🧠", "general"),
+    A("Push for quick action ⚡", "speed"), A("Lift the mood 🎭", "showman") ] },
+  { cat: "Work", q: "Your work secret:", options: [
+    A("Pure repetition 🚀", "machine"), A("Last-minute speed ⚡", "speed"),
+    A("Making it enjoyable 🎭", "showman"), A("People want to help me 👑", "talisman") ] },
+  { cat: "Work", q: "Tough feedback. You:", options: [
+    A("Use it as fuel 🚀", "machine"), A("Make a better plan 🧠", "general"),
+    A("Laugh and bounce back 🎭", "showman"), A("Stay confident anyway 👑", "talisman") ] },
   { cat: "Work", q: "Dream career vibe:", options: [
-    A("Top performer 🚀", "machine"), A("Inventor / creator 🪄", "magician"),
-    A("The strategist 🧠", "general"), A("The famous one 👑", "talisman") ] },
-  { cat: "Work", q: "Teamwork means you…", options: [
-    A("Do your part flawlessly 🚀", "machine"), A("Bring fresh ideas 🪄", "magician"),
-    A("Coordinate everyone 🧠", "general"), A("Keep morale high 👑", "talisman") ] },
-  { cat: "Work", q: "Your productivity mode:", options: [
+    A("Top performer 🚀", "machine"), A("The strategist 🧠", "general"),
+    A("Always on the move ⚡", "speed"), A("The famous one 👑", "talisman") ] },
+  { cat: "Work", q: "Teamwork means you:", options: [
+    A("Do your part flawlessly 🚀", "machine"), A("Coordinate everyone 🧠", "general"),
+    A("Keep the pace up ⚡", "speed"), A("Keep morale high 🎭", "showman") ] },
+  { cat: "Work", q: "Productivity mode:", options: [
     A("Head down, full power 🚀", "machine"), A("Flow-state creativity 🪄", "magician"),
-    A("Calm and methodical 🧠", "general"), A("Fast bursts of energy ⚡", "speed") ] },
+    A("Fun keeps me going 🎭", "showman"), A("I thrive on attention 👑", "talisman") ] },
 
   // ─────────── 5) HUMOUR (10) ───────────
-  { cat: "Humour", q: "Your humour is best described as…", options: [
-    A("Deadpan and dry 🚀", "machine"), A("Clever wordplay 🪄", "magician"),
-    A("Perfectly timed 🧠", "general"), A("Big and theatrical 🎭", "showman") ] },
-  { cat: "Humour", q: "A joke flops. You…", options: [
-    A("Repeat it louder 🚀", "machine"), A("Twist it into a new one 🪄", "magician"),
-    A("Move on smoothly 🧠", "general"), A("Double down dramatically 🎭", "showman") ] },
-  { cat: "Humour", q: "In the group you're the…", options: [
-    A("Savage one-liner guy 🚀", "machine"), A("Random genius 🪄", "magician"),
-    A("Calm sarcastic one 🧠", "general"), A("Full-on comedian 🎭", "showman") ] },
+  { cat: "Humour", q: "Your humour is:", options: [
+    A("Deadpan, dry 🚀", "machine"), A("Clever wordplay 🪄", "magician"),
+    A("Rapid-fire one-liners ⚡", "speed"), A("Charming and warm 👑", "talisman") ] },
+  { cat: "Humour", q: "A joke flops. You:", options: [
+    A("Repeat it, louder 🚀", "machine"), A("Twist it into a new one 🪄", "magician"),
+    A("Move on instantly ⚡", "speed"), A("Double down, dramatically 🎭", "showman") ] },
+  { cat: "Humour", q: "In the group you're the:", options: [
+    A("Savage one-liner 🚀", "machine"), A("Random genius 🪄", "magician"),
+    A("Calm sarcastic one 🧠", "general"), A("Lovable ringleader 👑", "talisman") ] },
   { cat: "Humour", q: "Your meme energy:", options: [
     A("No caption needed 🚀", "machine"), A("Cursed and creative 🪄", "magician"),
-    A("Smart and topical 🧠", "general"), A("Loud and chaotic ⚡", "speed") ] },
-  { cat: "Humour", q: "Someone pranks you. You…", options: [
-    A("Prank back, harder 🚀", "machine"), A("Out-smart the prank 🪄", "magician"),
-    A("Plot the perfect revenge 🧠", "general"), A("Laugh loudest of all 🎭", "showman") ] },
-  { cat: "Humour", q: "Your laugh is…", options: [
-    A("A single sharp HA 🚀", "machine"), A("A surprised giggle 🪄", "magician"),
-    A("A quiet chuckle 🧠", "general"), A("Heard three rooms away 👑", "talisman") ] },
-  { cat: "Humour", q: "Favourite type of funny:", options: [
-    A("Brutal honesty 🚀", "machine"), A("Absurd & weird 🪄", "magician"),
-    A("Witty & smart 🧠", "general"), A("Slapstick chaos 🎭", "showman") ] },
-  { cat: "Humour", q: "You'd win an award for…", options: [
-    A("Most reliable laugh 🚀", "machine"), A("Most unexpected joke 🪄", "magician"),
-    A("Best comeback 🧠", "general"), A("Most viral moment ⚡", "speed") ] },
+    A("Smart and topical 🧠", "general"), A("Loud and chaotic 🎭", "showman") ] },
+  { cat: "Humour", q: "Someone pranks you. You:", options: [
+    A("Prank back harder 🚀", "machine"), A("Out-smart the prank 🪄", "magician"),
+    A("Plot the perfect revenge 🧠", "general"), A("React in a flash ⚡", "speed") ] },
+  { cat: "Humour", q: "You'd win an award for:", options: [
+    A("Best comeback 🧠", "general"), A("Fastest wit ⚡", "speed"),
+    A("Most viral moment 🎭", "showman"), A("Most loved person 👑", "talisman") ] },
   { cat: "Humour", q: "Texting style:", options: [
-    A("One word. Done. 🚀", "machine"), A("Weird emojis only 🪄", "magician"),
-    A("Full grammar always 🧠", "general"), A("Voice notes & chaos ⚡", "speed") ] },
-  { cat: "Humour", q: "The room laughs. You're…", options: [
-    A("The cause, calmly 🚀", "machine"), A("Confused but pleased 🪄", "magician"),
-    A("Quietly proud 🧠", "general"), A("Taking a bow 👑", "talisman") ] },
+    A("Weird emojis only 🪄", "magician"), A("Voice notes at speed ⚡", "speed"),
+    A("Gifs and drama 🎭", "showman"), A("Everyone replies to me 👑", "talisman") ] },
+  { cat: "Humour", q: "Favourite kind of funny:", options: [
+    A("Absurd and weird 🪄", "magician"), A("Witty and smart 🧠", "general"),
+    A("Slapstick chaos 🎭", "showman"), A("Feel-good and warm 👑", "talisman") ] },
+  { cat: "Humour", q: "The room laughs. You're:", options: [
+    A("Pleasantly surprised 🪄", "magician"), A("Quietly proud 🧠", "general"),
+    A("Already onto the next ⚡", "speed"), A("Taking a little bow 👑", "talisman") ] },
+  { cat: "Humour", q: "Your comedy weapon:", options: [
+    A("Unexpected twists 🪄", "magician"), A("Perfect timing 🧠", "general"),
+    A("Speed and surprise ⚡", "speed"), A("Big physical comedy 🎭", "showman") ] },
 
   // ─────────── 6) VIRAL CHAOS (10) ───────────
-  { cat: "Chaos", q: "You go viral overnight. Reaction:", options: [
-    A("Cash in fast 🚀", "machine"), A("Do something weirder 🪄", "magician"),
-    A("Plan the next 10 posts 🧠", "general"), A("Soak up the fame 👑", "talisman") ] },
-  { cat: "Chaos", q: "Last slice of pizza. You…", options: [
-    A("Take it, no hesitation 🚀", "machine"), A("Trick someone for it 🪄", "magician"),
-    A("Split it fairly 🧠", "general"), A("Give it away like a hero 👑", "talisman") ] },
-  { cat: "Chaos", q: "Zombie apocalypse. Your role:", options: [
-    A("Front-line fighter 🚀", "machine"), A("Builds wild gadgets 🪄", "magician"),
-    A("The leader with the plan 🧠", "general"), A("Outruns everything ⚡", "speed") ] },
-  { cat: "Chaos", q: "You find a time machine. You…", options: [
-    A("Fix one big mistake 🚀", "machine"), A("Mess with everything 🪄", "magician"),
-    A("Plan it out carefully 🧠", "general"), A("Make yourself famous 👑", "talisman") ] },
-  { cat: "Chaos", q: "Stuck on a desert island. You…", options: [
+  { cat: "Chaos", q: "You go viral overnight:", options: [
+    A("Cash in fast 🚀", "machine"), A("Ride the wave at full speed ⚡", "speed"),
+    A("Do something even wilder 🎭", "showman"), A("Soak up the fame 👑", "talisman") ] },
+  { cat: "Chaos", q: "Last slice of pizza. You:", options: [
+    A("Take it, no hesitation 🚀", "machine"), A("Split it fairly 🧠", "general"),
+    A("Make a whole bit of it 🎭", "showman"), A("Give it away like a hero 👑", "talisman") ] },
+  { cat: "Chaos", q: "Zombie apocalypse role:", options: [
+    A("Front-line fighter 🚀", "machine"), A("Leader with the plan 🧠", "general"),
+    A("Outruns everything ⚡", "speed"), A("Keeps everyone's hope up 👑", "talisman") ] },
+  { cat: "Chaos", q: "You find a time machine:", options: [
+    A("Fix one big mistake 🚀", "machine"), A("Plan it out carefully 🧠", "general"),
+    A("Zip everywhere at once ⚡", "speed"), A("Cause delightful mischief 🎭", "showman") ] },
+  { cat: "Chaos", q: "Desert island, you:", options: [
     A("Build shelter day one 🚀", "machine"), A("Invent coconut tech 🪄", "magician"),
-    A("Map an escape plan 🧠", "general"), A("Befriend the seagulls 👑", "talisman") ] },
-  { cat: "Chaos", q: "Surprise dance battle starts. You…", options: [
-    A("Win with one power move 🚀", "machine"), A("Confuse them with style 🪄", "magician"),
-    A("Calmly judge everyone 🧠", "general"), A("Steal the entire show 🎭", "showman") ] },
-  { cat: "Chaos", q: "You get one wish. You wish for…", options: [
+    A("Put on shows for the crabs 🎭", "showman"), A("Befriend the seagulls 👑", "talisman") ] },
+  { cat: "Chaos", q: "Surprise dance battle:", options: [
+    A("One powerful move, done 🚀", "machine"), A("Confuse them with style 🪄", "magician"),
+    A("Footwork at lightning speed ⚡", "speed"), A("Own the floor with charm 👑", "talisman") ] },
+  { cat: "Chaos", q: "One wish, you'd ask for:", options: [
     A("Unstoppable success 🚀", "machine"), A("Infinite creativity 🪄", "magician"),
-    A("Perfect timing always 🧠", "general"), A("World-wide fame 👑", "talisman") ] },
-  { cat: "Chaos", q: "Alarm didn't go off. You…", options: [
+    A("Limitless speed ⚡", "speed"), A("To entertain the world 🎭", "showman") ] },
+  { cat: "Chaos", q: "Alarm didn't go off. You:", options: [
     A("Power through, no excuses 🚀", "machine"), A("Improvise a genius excuse 🪄", "magician"),
-    A("Already had a backup plan 🧠", "general"), A("Sprint and somehow make it ⚡", "speed") ] },
-  { cat: "Chaos", q: "Free trip anywhere, leaving in 1 hour. You…", options: [
-    A("Grab a bag and GO 🚀", "machine"), A("Pick the strangest place 🪄", "magician"),
-    A("Plan the itinerary mid-air 🧠", "general"), A("Pack at lightning speed ⚡", "speed") ] },
-  { cat: "Chaos", q: "Crowd starts chanting your name. You…", options: [
+    A("Had a backup plan ready 🧠", "general"), A("Charm your way out of it 👑", "talisman") ] },
+  { cat: "Chaos", q: "Free trip, leaving in 1 hour:", options: [
+    A("Grab a bag and go 🚀", "machine"), A("Pick the strangest place 🪄", "magician"),
+    A("Plan the itinerary mid-air 🧠", "general"), A("Make it a whole adventure 🎭", "showman") ] },
+  { cat: "Chaos", q: "Crowd chants your name. You:", options: [
     A("Nod, stay cool 🚀", "machine"), A("Pull a surprise move 🪄", "magician"),
-    A("Conduct the chant 🧠", "general"), A("Live for this moment 👑", "talisman") ] },
+    A("Conduct the chant 🧠", "general"), A("Sprint a victory lap ⚡", "speed") ] },
 ];
 
 // Non-scoring Easter-egg shown at the very end. Pure engagement.

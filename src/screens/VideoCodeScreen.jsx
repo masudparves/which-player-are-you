@@ -4,6 +4,7 @@ import AdSlot from "../components/AdSlot.jsx";
 import { randomRevealableCode } from "../data/players.js";
 import { bumpCounter } from "../lib/counters.js";
 import { Sound } from "../lib/sound.js";
+import { copyLink } from "../lib/share.js";
 
 // mode: "code"  -> reveal a secret legend code after the countdown
 // mode: "alternate" -> after countdown, auto-return with an alternate-destiny player
@@ -11,7 +12,15 @@ export default function VideoCodeScreen({ banner, mode = "code", onBack, onPlayA
   const [count, setCount] = useState(null);
   const [revealed, setRevealed] = useState([]);
   const [running, setRunning] = useState(false);
+  const [copiedIdx, setCopiedIdx] = useState(-1);
   const timer = useRef(null);
+
+  const copyCode = async (codeText, idx) => {
+    await copyLink(codeText);
+    setCopiedIdx(idx);
+    Sound.click();
+    setTimeout(() => setCopiedIdx((c) => (c === idx ? -1 : c)), 1800);
+  };
 
   useEffect(() => { bumpCounter("video"); }, []);
   useEffect(() => () => clearInterval(timer.current), []);
@@ -69,7 +78,12 @@ export default function VideoCodeScreen({ banner, mode = "code", onBack, onPlayA
           <div className="code-reveal" key={i}>
             <div className="cr-top">🎁 Secret Code Unlocked</div>
             <div className="cr-name">for {r.name}</div>
-            <div className="cr-code">{r.code}</div>
+            <div className="cr-code-row">
+              <span className="cr-code">{r.code}</span>
+              <button className="cr-copy" onClick={() => copyCode(r.code, i)}>
+                {copiedIdx === i ? "✓ Copied" : "Copy"}
+              </button>
+            </div>
             <div className="cr-hint">Try it in the game.</div>
           </div>
         ))}
