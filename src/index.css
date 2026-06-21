@@ -59,7 +59,7 @@ input { -webkit-appearance: none; }
 /* ---------- banner ---------- */
 .banner { position: relative; width: 100%; aspect-ratio: 1400 / 480; overflow: hidden; background: #000; }
 .banner img { width: 100%; height: 100%; object-fit: cover; }
-.banner-fade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,14,26,0) 45%, rgba(10,14,26,0.92) 100%); }
+.banner-fade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,14,26,0) 78%, rgba(10,14,26,0.45) 100%); }
 
 /* ---------- sound toggle ---------- */
 .sound-toggle {
@@ -196,12 +196,11 @@ input { -webkit-appearance: none; }
 .alt-arch { font-size: 13px; color: var(--muted); }
 
 /* ---------- ad slot ---------- */
-.ad-slot { display: block; text-decoration: none; color: #fff; text-align: center; background: var(--card);
-  border: 1px dashed rgba(255,209,102,0.55); border-radius: 12px; padding: 14px; margin: 18px auto 0; max-width: 340px; }
-.ad-tag { font-size: 10px; letter-spacing: 2px; opacity: 0.55; }
-.ad-count { font-size: 13px; color: var(--gold); margin-top: 4px; font-weight: 700; }
-.ad-headline { font-weight: 800; font-size: 15px; margin-top: 4px; }
-.ad-cta { font-size: 13px; color: #25D366; margin-top: 6px; font-weight: 700; }
+.ad-slot { display: block; color: #fff; text-align: center; background: var(--card);
+  border: 1px dashed rgba(255,209,102,0.55); border-radius: 12px; padding: 12px 14px; margin: 14px auto 0; max-width: 360px; }
+.ad-tag { font-size: 10px; letter-spacing: 2px; opacity: 0.55; margin-bottom: 4px; }
+.ad-text { font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,0.9); }
+.ad-wa { color: #25D366; font-weight: 800; text-decoration: none; white-space: nowrap; }
 
 /* ---------- hall of fame ---------- */
 .hof { max-width: 340px; margin: 22px auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; text-align: left; }
@@ -256,7 +255,10 @@ input { -webkit-appearance: none; }
 /* ----- result page ----- */
 .result-v2 .you-are { font-size: 12px; letter-spacing: 3px; font-weight: 800; color: var(--gold); }
 .fit .result-card { max-width: 90%; margin: 0 auto; padding: 4px; display: inline-block; border-radius: 16px; }
-.fit .result-card img { width: auto; height: auto; max-height: 36dvh; max-width: 100%; border-radius: 13px; display: block; }
+.fit .result-card img { width: auto; height: auto; max-height: 32dvh; max-width: 100%; border-radius: 13px; display: block; }
+.jersey-card { border: 3px solid #888; background: #0a0e1a; }
+.alt-card-v2 { display: inline-block; padding: 4px; border-radius: 16px; }
+.alt-card-v2 img { width: auto; height: auto; max-height: 42vh; max-width: 100%; border-radius: 13px; display: block; margin: 0 auto; }
 .result-head { text-align: center; }
 .result-head .rarity { margin-bottom: 4px; }
 .result-v2 .result-name { font-size: clamp(20px, 5.6vw, 27px); font-weight: 900; margin: 4px 0 2px; }
@@ -267,19 +269,34 @@ input { -webkit-appearance: none; }
   display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-/* 2-column equal button grid; odd item spans full width */
-.btn-grid { width: 100%; max-width: 360px; margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* 2-column equal button grid; odd item (the first) spans full width */
+.btn-grid { width: 100%; max-width: 360px; margin-top: 4px; display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .grid-btn {
-  min-height: 48px; border: none; border-radius: 12px; cursor: pointer;
-  font-weight: 800; font-size: 14px; padding: 10px 8px; color: #14110a; line-height: 1.15;
+  min-height: 46px; border: none; border-radius: 12px; cursor: pointer;
+  font-weight: 800; font-size: 14px; padding: 9px 8px; color: #fff; line-height: 1.15;
 }
 .grid-btn.span2 { grid-column: 1 / -1; }
-.grid-btn.g-share { background: linear-gradient(135deg, #2bd366, #149e4a); color: #06210f; }
-.grid-btn.g-save  { background: linear-gradient(135deg, #57b6ff, #1f6dd6); color: #04203f; }
+.grid-btn.g-share { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: #14110a; }
+.grid-btn.g-fb    { background: #1877F2; }
+.grid-btn.g-msg   { background: #A033FF; }
+.grid-btn.g-wa    { background: #25D366; color: #06210f; }
+.grid-btn.g-x     { background: #000; border: 1px solid rgba(255,255,255,0.3); }
+.grid-btn.g-copy  { background: #334155; color: #fff; }
 .grid-btn.g-chal  { background: linear-gradient(135deg, #c79bff, #8a4be0); color: #1c0b33; }
-.grid-btn.g-hof   { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: #14110a; }
 .grid-btn.g-alt   { background: linear-gradient(135deg, #9b5de5, #00bbf9); color: #06182b; }
+.grid-btn.g-hof   { background: rgba(255,209,102,0.18); color: var(--gold); border: 1.5px solid var(--gold); }
 .grid-btn.g-again { background: rgba(255,255,255,0.10); color: #fff; border: 1.5px solid var(--line); }
+
+/* Phone share — the prominent one that sends the actual card */
+.share-phone { width: 100%; max-width: 360px; min-height: 52px; font-size: 16px; margin: 2px auto 0; }
+
+/* Bordered "For PC Sharing" cluster */
+.pc-share { position: relative; width: 100%; max-width: 360px; margin: 14px auto 2px;
+  border: 1.5px solid var(--line); border-radius: 14px; padding: 16px 12px 12px; }
+.pc-share-tag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+  background: var(--bg); padding: 0 10px; font-size: 11px; font-weight: 800; letter-spacing: 1px;
+  color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+.pc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 
 /* small toast for copy/share feedback */
 .toast {
@@ -293,8 +310,7 @@ input { -webkit-appearance: none; }
 .subpage { justify-content: flex-start; gap: 1.6vh; }
 .sub-title { font-size: clamp(22px, 6vw, 28px); font-weight: 900; margin: 4px 0 0; text-align: center; }
 .sub-sub { font-size: 13px; color: var(--muted); text-align: center; margin-top: -2px; }
-.sub-back { margin-top: auto; }
-.fit .alt-card-v2 img { max-height: 42dvh; }
+.sub-back { margin: 16px auto 0; display: block; }
 
 .hof-box { width: 100%; max-width: 360px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px; }
 .hof-empty { color: var(--muted); text-align: center; padding: 18px 8px; font-size: 14px; }

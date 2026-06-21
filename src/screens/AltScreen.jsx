@@ -19,7 +19,10 @@ export default function AltScreen({ alternate, onBack }) {
     <div className="screen fit subpage">
       <h2 className="sub-title">✨ Your Alternate Destiny</h2>
 
-      <div className={"result-card alt-card-v2 " + (RARITY_CLASS[alternate.rarity] || "r-common")}>
+      <div
+        className="result-card jersey-card alt-card-v2"
+        style={{ borderColor: alternate.jersey, boxShadow: `0 0 22px ${alternate.jersey}77` }}
+      >
         <img src={alternate.image} alt={alternate.name} decoding="async" />
       </div>
 
@@ -29,7 +32,7 @@ export default function AltScreen({ alternate, onBack }) {
         <div className="result-arch">{archLabel}</div>
       </div>
 
-      <AdSlot kind="result" />
+      <AdSlot />
 
       <button className="btn-link sub-back" onClick={onBack}>← Back To Start</button>
     </div>

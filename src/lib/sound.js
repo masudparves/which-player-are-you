@@ -1,13 +1,16 @@
 // ============================================================
-//  SOUND  — all synthesized with the Web Audio API.
-//  No audio files, no copyrighted music. If audio is blocked or
-//  unsupported, every function silently no-ops; the app still works.
-//  Must be started after a user gesture (browser autoplay rule).
+//  SOUND — synthesized with Web Audio (no audio files, no copyright).
+//  Ambient "duff" loop swells from normal up to ~4x tempo & volume,
+//  then back down, on a continuous loop. Button press = football shot.
+//  Everything no-ops silently if audio is blocked/unsupported.
+//  Must start after a user gesture (browser autoplay rule).
 // ============================================================
 
 let ctx = null;
 let master = null;
+let ambGain = null;
 let ambientTimer = null;
+let ambientStartMs = 0;
 let enabled = true;
 
 function ensure() {
@@ -33,43 +36,47 @@ function noiseBuffer(seconds = 0.2) {
   return buf;
 }
 
-// low "duff" drum hit
-function duff(time = 0) {
+// one low "duff" drum hit into a destination node
+function duffInto(dest, t0 = 0) {
   if (!ctx) return;
-  const t = ctx.currentTime + time;
+  const t = ctx.currentTime + t0;
   const o = ctx.createOscillator();
   const g = ctx.createGain();
-  o.frequency.setValueAtTime(140, t);
-  o.frequency.exponentialRampToValueAtTime(55, t + 0.18);
-  g.gain.setValueAtTime(0.6, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
-  o.connect(g); g.connect(master);
-  o.start(t); o.stop(t + 0.26);
+  o.frequency.setValueAtTime(150, t);
+  o.frequency.exponentialRampToValueAtTime(55, t + 0.16);
+  g.gain.setValueAtTime(0.9, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+  o.connect(g); g.connect(dest);
+  o.start(t); o.stop(t + 0.24);
 }
 
-// soft ambient stadium loop (gentle filtered noise swells + a slow duff pulse)
+// triangle 0→1→0 across the cycle
+function triPhase(elapsedMs, cycleMs) {
+  const p = (elapsedMs % cycleMs) / cycleMs;
+  return p < 0.5 ? p * 2 : (1 - p) * 2;
+}
+
 function startAmbient() {
   if (!ctx || ambientTimer) return;
-  const src = ctx.createBufferSource();
-  src.buffer = noiseBuffer(2);
-  src.loop = true;
-  const filt = ctx.createBiquadFilter();
-  filt.type = "bandpass";
-  filt.frequency.value = 900;
-  filt.Q.value = 0.6;
-  const g = ctx.createGain();
-  g.gain.value = 0.05;
-  src.connect(filt); filt.connect(g); g.connect(master);
-  src.start();
-  let step = 0;
-  ambientTimer = setInterval(() => {
-    if (!enabled) return;
-    duff(0);
-    if (step % 2 === 1) duff(0.28);
-    step++;
-  }, 900);
-  // keep a handle to stop noise if needed
-  startAmbient._src = src;
+  ambGain = ctx.createGain();
+  ambGain.gain.value = 0.04;
+  ambGain.connect(master);
+
+  ambientStartMs = Date.now();
+  const CYCLE_MS = 5000;       // one full normal→4x→normal swell
+  const BASE_INTERVAL = 0.46;  // seconds at normal tempo ("double speed = normal")
+  const BASE_VOL = 0.035;
+
+  const step = () => {
+    if (!ctx) return;
+    const phase = triPhase(Date.now() - ambientStartMs, CYCLE_MS); // 0..1
+    const factor = 1 + 3 * phase; // 1x .. 4x (tempo AND volume)
+    try { ambGain.gain.setTargetAtTime(BASE_VOL * factor, ctx.currentTime, 0.06); } catch {}
+    if (enabled) duffInto(ambGain);
+    const intervalMs = (BASE_INTERVAL / factor) * 1000;
+    ambientTimer = setTimeout(step, intervalMs);
+  };
+  step();
 }
 
 export const Sound = {
@@ -85,21 +92,34 @@ export const Sound = {
   isEnabled() {
     return enabled;
   },
+
+  // Button press = football shot: a crisp "thwack" + a low "boom".
   click() {
     if (!ctx || !enabled) return;
     const t = ctx.currentTime;
+    // thwack — short high-passed noise (boot striking the ball)
+    const n = ctx.createBufferSource();
+    n.buffer = noiseBuffer(0.09);
+    const hp = ctx.createBiquadFilter();
+    hp.type = "highpass"; hp.frequency.value = 1100;
+    const ng = ctx.createGain();
+    ng.gain.setValueAtTime(0.5, t);
+    ng.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+    n.connect(hp); hp.connect(ng); ng.connect(master);
+    n.start(t); n.stop(t + 0.09);
+    // boom — fast low sine drop (the thump of contact)
     const o = ctx.createOscillator();
     const g = ctx.createGain();
-    o.type = "square";
-    o.frequency.setValueAtTime(420, t);
-    o.frequency.exponentialRampToValueAtTime(180, t + 0.08);
-    g.gain.setValueAtTime(0.25, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+    o.type = "sine";
+    o.frequency.setValueAtTime(190, t);
+    o.frequency.exponentialRampToValueAtTime(58, t + 0.13);
+    g.gain.setValueAtTime(0.6, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
     o.connect(g); g.connect(master);
-    o.start(t); o.stop(t + 0.11);
+    o.start(t); o.stop(t + 0.17);
   },
+
   reveal() {
-    // crowd-roar style swell
     if (!ctx || !enabled) return;
     const t = ctx.currentTime;
     const src = ctx.createBufferSource();
@@ -115,8 +135,8 @@ export const Sound = {
     src.connect(filt); filt.connect(g); g.connect(master);
     src.start(t); src.stop(t + 1.2);
   },
+
   legend() {
-    // special shimmer for a legend unlock
     if (!ctx || !enabled) return;
     const t = ctx.currentTime;
     [523, 659, 784, 1047].forEach((f, i) => {
@@ -132,6 +152,7 @@ export const Sound = {
     });
     this.reveal();
   },
+
   tick() {
     if (!ctx || !enabled) return;
     const t = ctx.currentTime;
@@ -144,8 +165,8 @@ export const Sound = {
     o.connect(g); g.connect(master);
     o.start(t); o.stop(t + 0.09);
   },
+
   success() {
-    // bright rising 3-note positive chime
     if (!ctx || !enabled) return;
     const t = ctx.currentTime;
     [660, 880, 1320].forEach((f, i) => {
@@ -160,8 +181,8 @@ export const Sound = {
       o.start(t + i * 0.09); o.stop(t + i * 0.09 + 0.34);
     });
   },
+
   error() {
-    // negative descending double buzz
     if (!ctx || !enabled) return;
     const t = ctx.currentTime;
     [220, 160].forEach((f, i) => {

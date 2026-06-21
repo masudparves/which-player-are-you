@@ -39,6 +39,17 @@ ${siteUrl()}
 ${HASHTAGS}`;
 }
 
+// "Hey, look I took a small quiz..." + link, used by every share button.
+export function buildResultShareText(result) {
+  const title = result.nickname || result.archetype;
+  return `Hey, look — I took a small quiz and found out I am ${result.name} (${title})!
+
+Try it yourself:
+${siteUrl()}
+
+${HASHTAGS}`;
+}
+
 const enc = encodeURIComponent;
 
 export function platformLinks(text) {

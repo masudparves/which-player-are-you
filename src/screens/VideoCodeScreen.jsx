@@ -94,10 +94,9 @@ export default function VideoCodeScreen({ banner, mode = "code", onBack, onPlayA
           </button>
         )}
 
-        <AdSlot kind="video" />
+        <AdSlot />
 
-        {!isAlt && <button className="btn-secondary" onClick={onPlayAgain}>Play Again</button>}
-        <button className="btn-link" onClick={onBack}>← Back To Start</button>
+        {!isAlt && <button className="btn-secondary" onClick={onPlayAgain}>Back to Start</button>}
       </div>
     </div>
   );

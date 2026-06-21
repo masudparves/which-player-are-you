@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
 import { CONFIG } from "../data/archetypes.js";
-import { readCounter, COUNTER_LABELS } from "../lib/counters.js";
+import { readCounter } from "../lib/counters.js";
 
-// kind: "result" | "video"
-export default function AdSlot({ kind }) {
+// One shared ad box used on Result, Hall of Fame, Alternate Destiny and the
+// Unlock-Legend pages. Shows the TOTAL site-visit count + a WhatsApp contact CTA.
+export default function AdSlot() {
   const [count, setCount] = useState(null);
-  const counterName = kind === "video" ? "video" : "result";
 
   useEffect(() => {
     let alive = true;
     if (CONFIG.SHOW_VISITOR_COUNT) {
-      readCounter(counterName).then((r) => { if (alive) setCount(r.value); });
+      readCounter("site").then((r) => { if (alive) setCount(r.value); });
     }
     return () => { alive = false; };
-  }, [counterName]);
+  }, []);
 
   const wa = `https://wa.me/${CONFIG.WHATSAPP}`;
-  const headline = kind === "video" ? "📢 Show your video ad here" : "📢 Show your banner here";
-  const icon = kind === "video" ? "🎥" : "⚽";
-  const label = COUNTER_LABELS[counterName];
+  const visits = CONFIG.SHOW_VISITOR_COUNT && count != null && count > 0 ? count : null;
 
   return (
-    <a className="ad-slot" href={wa} target="_blank" rel="noreferrer">
+    <div className="ad-slot">
       <div className="ad-tag">ADVERTISEMENT</div>
-      {CONFIG.SHOW_VISITOR_COUNT && count != null && (
-        <div className="ad-count">{icon} {count} {label}</div>
-      )}
-      <div className="ad-headline">{headline}</div>
-      <div className="ad-cta">WhatsApp Us →</div>
-    </a>
+      <div className="ad-text">
+        {visits != null
+          ? `This page was visited ${visits} times today. `
+          : "This spot reaches every player. "}
+        To show your banner ad here,{" "}
+        <a href={wa} target="_blank" rel="noreferrer" className="ad-wa">contact us on WhatsApp →</a>
+      </div>
+    </div>
   );
 }
