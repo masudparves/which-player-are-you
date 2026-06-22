@@ -191,3 +191,20 @@ src/
 ## A note on expectations
 
 Going viral is a lottery, and ad money only comes after real traffic. Treat this as a fun experiment that *might* take off. The best free growth tool is the "Follow For More" link — point it at a page you control and grow an audience. Keep it clearly fan-made (no official FIFA/sponsor endorsement) and use only licensed images and sounds. Good luck! ⚽
+
+---
+
+## Dynamic share page (shows the card on Facebook/WhatsApp/Messenger)
+
+This project includes `functions/r/[id].js` — a **Cloudflare Pages Function**. When someone
+shares their result, the link is `your-site.pages.dev/r/<player>` (e.g. `/r/messi`). Social
+platforms fetch that link and show **that player's card** as the preview image, then send real
+visitors on to the game.
+
+IMPORTANT: this only works on **Cloudflare Pages** (or another host that runs serverless
+functions). On a plain static host the `/r/...` link will just redirect to the homepage and
+show the default banner preview instead of the card. No setup needed on Cloudflare — Pages
+detects the `functions/` folder automatically.
+
+The player cards are duplicated into `public/cards/` so the preview image has a stable URL.
+If you rename a card, update both `public/cards/` and the map at the top of `functions/r/[id].js`.

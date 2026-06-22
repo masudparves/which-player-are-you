@@ -12,6 +12,13 @@ export function siteUrl() {
   return u || "";
 }
 
+// Per-result share link → /r/<id>. Social platforms fetch this and show the
+// player's card as the preview image (handled by functions/r/[id].js).
+export function resultShareUrl(result) {
+  const base = siteUrl().replace(/\/$/, "");
+  return `${base}/r/${result.id}`;
+}
+
 const HASHTAGS = "#WorldCup2026 #WhichPlayerAreYou";
 
 export function buildShareText(userName, result) {
@@ -39,21 +46,21 @@ ${siteUrl()}
 ${HASHTAGS}`;
 }
 
-// "Hey, look I took a small quiz..." + link, used by every share button.
+// "Hey, look I took a small quiz..." + per-result link (preview shows the card).
 export function buildResultShareText(result) {
   const title = result.nickname || result.archetype;
   return `Hey, look — I took a small quiz and found out I am ${result.name} (${title})!
 
 Try it yourself:
-${siteUrl()}
+${resultShareUrl(result)}
 
 ${HASHTAGS}`;
 }
 
 const enc = encodeURIComponent;
 
-export function platformLinks(text) {
-  const url = siteUrl();
+export function platformLinks(text, shareUrl) {
+  const url = shareUrl || siteUrl();
   return {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}&quote=${enc(text)}`,
     messenger: `https://www.facebook.com/dialog/send?link=${enc(url)}&redirect_uri=${enc(url)}`,

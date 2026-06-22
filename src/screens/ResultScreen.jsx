@@ -3,8 +3,8 @@ import { ARCHETYPES } from "../data/archetypes.js";
 import { addToHallOfFame } from "../components/HallOfFame.jsx";
 import AdSlot from "../components/AdSlot.jsx";
 import {
-  buildResultShareText, platformLinks,
-  copyLink, nativeShare, siteUrl,
+  buildResultShareText, platformLinks, resultShareUrl,
+  copyLink, nativeShare,
 } from "../lib/share.js";
 import { Sound } from "../lib/sound.js";
 
@@ -25,10 +25,12 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
   const archLabel = result.nickname || ARCHETYPES[result.archetype].label;
   const flash = (m) => { setToast(m); setTimeout(() => setToast(""), 2200); };
   const text = buildResultShareText(result);
-  const links = platformLinks(text);
+  const links = platformLinks(text, resultShareUrl(result));
   const open = (url) => { Sound.click(); window.open(url, "_blank", "noopener"); };
 
-  // Native share — tries to attach the actual player card image + text + link.
+  // Native share — attaches the actual player card image, with text + link inside the caption.
+  // (Passing the link inside `text` rather than as a separate `url` makes apps like
+  //  WhatsApp keep the image AND the caption+link together.)
   const shareNative = async () => {
     Sound.click();
     try {
@@ -36,12 +38,18 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
       const blob = await res.blob();
       const file = new File([blob], `which-player-${result.id}.jpg`, { type: blob.type || "image/jpeg" });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], text, url: siteUrl() });
+        await navigator.share({ files: [file], text });
         return;
       }
     } catch { /* fall through */ }
     const ran = await nativeShare(text);
     if (!ran) { await copyLink(text); flash("Share text copied!"); }
+  };
+
+  const copyShareLink = async () => {
+    Sound.click();
+    const ok = await copyLink(text);
+    flash(ok ? "Link copied — paste it anywhere!" : "Copy failed — long-press to copy.");
   };
 
   if (revealing) {
@@ -80,19 +88,17 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
 
       <p className="result-desc">{result.description}</p>
 
-      {/* Phone share — sends the actual player card + text + link */}
+      {/* Share — every link unfurls to show the player's card (via /r/<id>) */}
       <button className="grid-btn g-share share-phone" onClick={shareNative}>
-        📲 Share from Phone
+        📲 Share
       </button>
-
-      {/* PC share — link + text only (preview image comes from the page) */}
-      <div className="pc-share">
-        <span className="pc-share-tag">For PC Sharing</span>
-        <div className="pc-grid">
-          <button className="grid-btn g-fb" onClick={() => open(links.facebook)}>Facebook</button>
-          <button className="grid-btn g-wa" onClick={() => open(links.whatsapp)}>WhatsApp</button>
-        </div>
+      <div className="share-grid">
+        <button className="grid-btn g-fb" onClick={() => open(links.facebook)}>Facebook</button>
+        <button className="grid-btn g-msg" onClick={() => open(links.messenger)}>Messenger</button>
+        <button className="grid-btn g-wa" onClick={() => open(links.whatsapp)}>WhatsApp</button>
+        <button className="grid-btn g-x" onClick={() => open(links.x)}>X</button>
       </div>
+      <button className="grid-btn g-copy share-copy" onClick={copyShareLink}>🔗 Copy Link</button>
 
       <div className="btn-grid">
         {actions.map((b, i) => (

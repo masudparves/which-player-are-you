@@ -12,8 +12,9 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; background: #05070f; overscroll-behavior: none; }
 html, body, #root { height: 100%; margin: 0; }
+body { overscroll-behavior: none; }
 body {
   background: radial-gradient(ellipse at 50% -10%, #16203c 0%, var(--bg) 55%, #05070f 100%);
   color: var(--ink);
@@ -287,7 +288,9 @@ input { -webkit-appearance: none; }
 .grid-btn.g-again { background: rgba(255,255,255,0.10); color: #fff; border: 1.5px solid var(--line); }
 
 /* Phone share — the prominent one that sends the actual card */
-.share-phone { width: 100%; max-width: 360px; min-height: 52px; font-size: 16px; margin: 2px auto 0; }
+.share-phone { width: 100%; max-width: 360px; min-height: 50px; font-size: 16px; margin: 2px auto 0; }
+.share-grid { width: 100%; max-width: 360px; margin: 9px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.share-copy { width: 100%; max-width: 360px; margin: 9px auto 0; }
 
 /* Bordered "For PC Sharing" cluster */
 .pc-share { position: relative; width: 100%; max-width: 360px; margin: 14px auto 2px;

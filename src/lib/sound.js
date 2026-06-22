@@ -36,18 +36,29 @@ function noiseBuffer(seconds = 0.2) {
   return buf;
 }
 
-// one low "duff" drum hit into a destination node
+// one "duff" hit into a destination node — tuned to be audible on small phone speakers
 function duffInto(dest, t0 = 0) {
   if (!ctx) return;
   const t = ctx.currentTime + t0;
+  // body — mid-low thump (phones can't reproduce deep bass, so keep it ~200→95Hz)
   const o = ctx.createOscillator();
   const g = ctx.createGain();
-  o.frequency.setValueAtTime(150, t);
-  o.frequency.exponentialRampToValueAtTime(55, t + 0.16);
-  g.gain.setValueAtTime(0.9, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+  o.type = "triangle";
+  o.frequency.setValueAtTime(210, t);
+  o.frequency.exponentialRampToValueAtTime(95, t + 0.15);
+  g.gain.setValueAtTime(1.0, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
   o.connect(g); g.connect(dest);
-  o.start(t); o.stop(t + 0.24);
+  o.start(t); o.stop(t + 0.22);
+  // click transient — a short higher tick so it cuts through tiny speakers
+  const o2 = ctx.createOscillator();
+  const g2 = ctx.createGain();
+  o2.type = "square";
+  o2.frequency.setValueAtTime(440, t);
+  g2.gain.setValueAtTime(0.25, t);
+  g2.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+  o2.connect(g2); g2.connect(dest);
+  o2.start(t); o2.stop(t + 0.06);
 }
 
 // triangle 0→1→0 across the cycle
@@ -65,7 +76,7 @@ function startAmbient() {
   ambientStartMs = Date.now();
   const CYCLE_MS = 4000;       // one full normal→4x→normal swell (faster cycle)
   const BASE_INTERVAL = 0.30;  // seconds at normal tempo (faster baseline)
-  const BASE_VOL = 0.035;
+  const BASE_VOL = 0.09;       // louder so phone speakers can be heard
 
   const step = () => {
     if (!ctx) return;
