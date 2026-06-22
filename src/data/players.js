@@ -80,7 +80,9 @@ export function legendByCode(raw) {
   return LEGENDS.find((l) => l.code.toUpperCase() === c) || null;
 }
 
-export function randomRevealableCode() {
-  const pool = LEGENDS.filter((l) => l.revealable);
+export function randomRevealableCode(excludeCodes = []) {
+  const all = LEGENDS.filter((l) => l.revealable);
+  let pool = all.filter((l) => !excludeCodes.includes(l.code));
+  if (pool.length === 0) pool = all; // all used this cycle → reset
   return pool[Math.floor(Math.random() * pool.length)];
 }

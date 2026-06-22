@@ -3,7 +3,7 @@ import { ARCHETYPES } from "../data/archetypes.js";
 import { addToHallOfFame } from "../components/HallOfFame.jsx";
 import AdSlot from "../components/AdSlot.jsx";
 import {
-  buildResultShareText, buildChallengeText, platformLinks,
+  buildResultShareText, platformLinks,
   copyLink, nativeShare, siteUrl,
 } from "../lib/share.js";
 import { Sound } from "../lib/sound.js";
@@ -16,6 +16,7 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
 
   useEffect(() => {
     addToHallOfFame(userName, result);
+    Sound.crowd();
     if (result.isLegend) Sound.legend(); else Sound.reveal();
     const t = setTimeout(() => setRevealing(false), 1600);
     return () => clearTimeout(t);
@@ -43,18 +44,6 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
     if (!ran) { await copyLink(text); flash("Share text copied!"); }
   };
 
-  const challenge = async () => {
-    Sound.click();
-    const ok = await copyLink(buildChallengeText(result));
-    flash(ok ? "Challenge copied — paste to a friend!" : "Copy failed — share manually.");
-  };
-
-  const copyShareLink = async () => {
-    Sound.click();
-    const ok = await copyLink(text);
-    flash(ok ? "Link copied — paste it anywhere!" : "Copy failed — long-press to copy.");
-  };
-
   if (revealing) {
     return (
       <div className="screen center reveal">
@@ -66,7 +55,6 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
 
   // Other action buttons (below the share box). Even count → clean 2 columns.
   const actions = [
-    { label: "Challenge 🤝", cls: "g-chal", onClick: challenge },
     { label: "Alternate Destiny ✨", cls: "g-alt", onClick: onAlternateDestiny },
     { label: "Hall of Fame 🏆", cls: "g-hof", onClick: onHallOfFame },
     { label: "Play Again 🔄", cls: "g-again", onClick: onBack },
@@ -102,9 +90,7 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
         <span className="pc-share-tag">For PC Sharing</span>
         <div className="pc-grid">
           <button className="grid-btn g-fb" onClick={() => open(links.facebook)}>Facebook</button>
-          <button className="grid-btn g-x" onClick={() => open(links.x)}>X</button>
           <button className="grid-btn g-wa" onClick={() => open(links.whatsapp)}>WhatsApp</button>
-          <button className="grid-btn g-copy" onClick={copyShareLink}>Copy Link</button>
         </div>
       </div>
 

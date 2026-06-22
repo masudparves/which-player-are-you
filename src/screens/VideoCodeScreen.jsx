@@ -14,6 +14,7 @@ export default function VideoCodeScreen({ banner, mode = "code", onBack, onPlayA
   const [running, setRunning] = useState(false);
   const [copiedIdx, setCopiedIdx] = useState(-1);
   const timer = useRef(null);
+  const cycleRef = useRef([]); // codes shown in the current no-repeat cycle
 
   const copyCode = async (codeText, idx) => {
     await copyLink(codeText);
@@ -46,7 +47,10 @@ export default function VideoCodeScreen({ banner, mode = "code", onBack, onPlayA
           Sound.reveal();
           onAlternateReady();
         } else {
-          const lg = randomRevealableCode();
+          const lg = randomRevealableCode(cycleRef.current);
+          cycleRef.current.push(lg.code);
+          // 3 revealable legends (Messi/Ronaldo/Zidane) — reset cycle once all shown
+          if (cycleRef.current.length >= 3) cycleRef.current = [];
           setRevealed((r) => [...r, { name: lg.name, code: lg.code }]);
           Sound.legend();
         }

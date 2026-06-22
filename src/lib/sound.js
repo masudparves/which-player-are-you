@@ -63,8 +63,8 @@ function startAmbient() {
   ambGain.connect(master);
 
   ambientStartMs = Date.now();
-  const CYCLE_MS = 5000;       // one full normal→4x→normal swell
-  const BASE_INTERVAL = 0.46;  // seconds at normal tempo ("double speed = normal")
+  const CYCLE_MS = 4000;       // one full normal→4x→normal swell (faster cycle)
+  const BASE_INTERVAL = 0.30;  // seconds at normal tempo (faster baseline)
   const BASE_VOL = 0.035;
 
   const step = () => {
@@ -134,6 +134,42 @@ export const Sound = {
     g.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
     src.connect(filt); filt.connect(g); g.connect(master);
     src.start(t); src.stop(t + 1.2);
+  },
+
+  // BIG stadium roar for the result reveal — layered crowd noise + rising swell.
+  crowd() {
+    if (!ctx || !enabled) return;
+    const t = ctx.currentTime;
+    const DUR = 3.0;
+    // wide crowd wash
+    const src = ctx.createBufferSource();
+    src.buffer = noiseBuffer(DUR);
+    src.loop = true;
+    const bp = ctx.createBiquadFilter();
+    bp.type = "bandpass"; bp.Q.value = 0.5;
+    bp.frequency.setValueAtTime(400, t);
+    bp.frequency.linearRampToValueAtTime(2200, t + 1.0);
+    bp.frequency.linearRampToValueAtTime(900, t + DUR);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.001, t);
+    g.gain.linearRampToValueAtTime(0.55, t + 0.6);   // surge
+    g.gain.linearRampToValueAtTime(0.4, t + 1.6);
+    g.gain.exponentialRampToValueAtTime(0.001, t + DUR);
+    src.connect(bp); bp.connect(g); g.connect(master);
+    src.start(t); src.stop(t + DUR);
+    // a couple of referee/crowd whistles on top
+    [0.2, 0.5, 1.1].forEach((d, i) => {
+      const o = ctx.createOscillator();
+      const wg = ctx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(2300 + i * 200, t + d);
+      o.frequency.linearRampToValueAtTime(2600 + i * 200, t + d + 0.15);
+      wg.gain.setValueAtTime(0.0001, t + d);
+      wg.gain.exponentialRampToValueAtTime(0.12, t + d + 0.03);
+      wg.gain.exponentialRampToValueAtTime(0.001, t + d + 0.22);
+      o.connect(wg); wg.connect(master);
+      o.start(t + d); o.stop(t + d + 0.24);
+    });
   },
 
   legend() {
