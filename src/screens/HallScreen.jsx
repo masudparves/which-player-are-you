@@ -21,8 +21,7 @@ export default function HallScreen({ onBack }) {
             <ul className="hof-list">
               {list.map((r, i) => (
                 <li key={i}>
-                  <span className="hof-rank">{i + 1}</span>
-                  <span className="hof-name">{r.name}</span>
+                  <span className="hof-left"><span className="hof-rank">{i + 1}</span> {r.name}</span>
                   <span className="hof-arrow">→</span>
                   <span className={"hof-player" + (r.legend ? " legend" : "")}>{r.player}</span>
                 </li>
@@ -33,7 +32,7 @@ export default function HallScreen({ onBack }) {
 
         <AdSlot />
 
-        <button className="btn-link sub-back" onClick={onBack}>← Back To Start</button>
+        <button className="btn-secondary play-again" onClick={onBack}>Play Again 🔄</button>
       </div>
     </div>
   );

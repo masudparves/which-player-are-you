@@ -314,8 +314,24 @@ input { -webkit-appearance: none; }
 .sub-sub { font-size: 13px; color: var(--muted); text-align: center; margin-top: -2px; }
 .sub-back { margin: 16px auto 0; display: block; }
 
-.hof-box { width: 100%; max-width: 360px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px; text-align: center; }
+.hof-box { width: 100%; max-width: 360px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 14px; }
 .hof-empty { color: var(--muted); text-align: center; padding: 18px 8px; font-size: 14px; }
-.hof-box .hof-list li { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.hof-box .hof-list li { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; padding: 7px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .hof-box .hof-list li:last-child { border-bottom: none; }
-.hof-rank { color: var(--gold); font-weight: 800; flex: none; }
+.hof-left { text-align: left; color: #fff; font-weight: 600; }
+.hof-rank { color: var(--gold); font-weight: 800; margin-right: 2px; }
+.hof-arrow { text-align: center; color: var(--muted); }
+.hof-player { text-align: left; color: var(--muted); }
+.hof-player.legend { color: var(--gold); font-weight: 800; }
+
+/* ---------- ShareBox (Copy Link to Share + instructions) ---------- */
+.share-box { width: 100%; max-width: 360px; margin: 6px auto 0; }
+.copy-share-btn { width: 100%; min-height: 50px; font-size: 16px; background: #25D366; color: #06210f; }
+.share-instructions { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 8px 2px 0; text-align: center; }
+.share-instructions b { color: rgba(255,255,255,0.85); }
+
+/* ---------- Play Again (bottom of pages) ---------- */
+.play-again { width: 100%; max-width: 360px; margin: 14px auto 0; }
+
+/* alternate-destiny description spacing */
+.subpage .result-desc { font-size: clamp(13px, 3.6vw, 15px); line-height: 1.45; color: rgba(255,255,255,0.86); max-width: 340px; text-align: center; margin: 10px auto 0; }

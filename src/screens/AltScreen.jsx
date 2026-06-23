@@ -1,5 +1,6 @@
 import { ARCHETYPES } from "../data/archetypes.js";
 import AdSlot from "../components/AdSlot.jsx";
+import ShareBox from "../components/ShareBox.jsx";
 
 const RARITY_CLASS = { COMMON: "r-common", RARE: "r-rare", EPIC: "r-epic", LEGENDARY: "r-legendary" };
 
@@ -9,7 +10,7 @@ export default function AltScreen({ alternate, onBack }) {
       <div className="screen fit subpage">
         <h2 className="sub-title">✨ Alternate Destiny</h2>
         <div className="sub-sub">Something went wrong — play again.</div>
-        <button className="btn-link sub-back" onClick={onBack}>← Back To Start</button>
+        <button className="btn-secondary play-again" onClick={onBack}>Play Again 🔄</button>
       </div>
     );
   }
@@ -32,9 +33,13 @@ export default function AltScreen({ alternate, onBack }) {
         <div className="result-arch">{archLabel}</div>
       </div>
 
+      <ShareBox result={alternate} />
+
+      <p className="result-desc">{alternate.description}</p>
+
       <AdSlot />
 
-      <button className="btn-link sub-back" onClick={onBack}>← Back To Start</button>
+      <button className="btn-secondary play-again" onClick={onBack}>Play Again 🔄</button>
     </div>
   );
 }
