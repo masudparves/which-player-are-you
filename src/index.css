@@ -13,8 +13,9 @@
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { -webkit-text-size-adjust: 100%; background: #05070f; overscroll-behavior: none; }
-html, body, #root { height: 100%; margin: 0; }
-body { overscroll-behavior: none; }
+html, body, #root { margin: 0; }
+body { min-height: 100dvh; overscroll-behavior: none; }
+#root { min-height: 100dvh; }
 body {
   background: radial-gradient(ellipse at 50% -10%, #16203c 0%, var(--bg) 55%, #05070f 100%);
   color: var(--ink);
@@ -26,7 +27,7 @@ button { font-family: inherit; -webkit-appearance: none; }
 input { -webkit-appearance: none; }
 
 /* ---------- layout ---------- */
-.app { position: relative; min-height: 100%; }
+.app { position: relative; min-height: 100dvh; }
 .frame {
   position: relative;
   z-index: 1;

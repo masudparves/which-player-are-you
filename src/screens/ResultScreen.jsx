@@ -46,6 +46,8 @@ export default function ResultScreen({ result, userName, onBack, onAlternateDest
         <div className="result-arch">{archLabel}</div>
       </div>
 
+      <p className="result-desc">{result.description}</p>
+
       <div className="btn-grid">
         <button className="grid-btn g-alt" onClick={onAlternateDestiny}>Alternate Destiny ✨</button>
         <button className="grid-btn g-hof" onClick={onHallOfFame}>Hall of Fame 🏆</button>

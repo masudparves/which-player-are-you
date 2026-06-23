@@ -36,29 +36,29 @@ function noiseBuffer(seconds = 0.2) {
   return buf;
 }
 
-// one "duff" hit into a destination node — tuned to be audible on small phone speakers
+// one "duff" hit into a destination node — deep thud, tuned to still carry on phones
 function duffInto(dest, t0 = 0) {
   if (!ctx) return;
   const t = ctx.currentTime + t0;
-  // body — mid-low thump (phones can't reproduce deep bass, so keep it ~200→95Hz)
+  // body — low thud (deeper = more "duff"); kept around 150→62Hz
   const o = ctx.createOscillator();
   const g = ctx.createGain();
-  o.type = "triangle";
-  o.frequency.setValueAtTime(210, t);
-  o.frequency.exponentialRampToValueAtTime(95, t + 0.15);
+  o.type = "sine";
+  o.frequency.setValueAtTime(150, t);
+  o.frequency.exponentialRampToValueAtTime(62, t + 0.18);
   g.gain.setValueAtTime(1.0, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+  g.gain.exponentialRampToValueAtTime(0.001, t + 0.26);
   o.connect(g); g.connect(dest);
-  o.start(t); o.stop(t + 0.22);
-  // click transient — a short higher tick so it cuts through tiny speakers
+  o.start(t); o.stop(t + 0.28);
+  // soft low click so tiny speakers still register the beat (subtle, not "ticky")
   const o2 = ctx.createOscillator();
   const g2 = ctx.createGain();
-  o2.type = "square";
-  o2.frequency.setValueAtTime(440, t);
-  g2.gain.setValueAtTime(0.25, t);
-  g2.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+  o2.type = "triangle";
+  o2.frequency.setValueAtTime(250, t);
+  g2.gain.setValueAtTime(0.12, t);
+  g2.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
   o2.connect(g2); g2.connect(dest);
-  o2.start(t); o2.stop(t + 0.06);
+  o2.start(t); o2.stop(t + 0.07);
 }
 
 // triangle 0→1→0 across the cycle

@@ -33,9 +33,9 @@ export default function AltScreen({ alternate, onBack }) {
         <div className="result-arch">{archLabel}</div>
       </div>
 
-      <ShareBox result={alternate} />
-
       <p className="result-desc">{alternate.description}</p>
+
+      <ShareBox result={alternate} />
 
       <AdSlot />
 
